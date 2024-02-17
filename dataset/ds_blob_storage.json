@@ -1,0 +1,20 @@
+{
+	"name": "ds_blob_storage",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls__blob_storage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "data.txt",
+				"folderPath": "input",
+				"container": "adf-practice"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

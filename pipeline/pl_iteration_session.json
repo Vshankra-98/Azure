@@ -1,0 +1,105 @@
+{
+	"name": "pl_iteration_session",
+	"properties": {
+		"activities": [
+			{
+				"name": "act_forloop_seesion",
+				"description": "here we performing iteration",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.list",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "act_if_condition_check_value as 3",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(string(item()),pipeline().parameters.check_number)",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "act_append_items",
+										"type": "AppendVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "new_lst",
+											"value": {
+												"value": "@item()",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "act_set_array_display",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "act_forloop_seesion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "bew_list_array",
+					"value": {
+						"value": "@variables('new_lst')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"list": {
+				"type": "array",
+				"defaultValue": [
+					1,
+					2,
+					3,
+					4,
+					5
+				]
+			},
+			"check_number": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"new_lst": {
+				"type": "Array"
+			},
+			"bew_list_array": {
+				"type": "Array"
+			},
+			"new_list_array_display": {
+				"type": "Array"
+			}
+		},
+		"folder": {
+			"name": "session1"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-02-14T05:57:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

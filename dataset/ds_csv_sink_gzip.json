@@ -1,0 +1,48 @@
+{
+	"name": "ds_csv_sink_gzip",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls__blob_storage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"container_name": {
+				"type": "String",
+				"defaultValue": "adf-practice"
+			},
+			"directory_name": {
+				"type": "String"
+			},
+			"delimater": {
+				"type": "String",
+				"defaultValue": ","
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": {
+					"value": "@dataset().directory_name",
+					"type": "Expression"
+				},
+				"container": {
+					"value": "@dataset().container_name",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": {
+				"value": "@dataset().delimater",
+				"type": "Expression"
+			},
+			"compressionCodec": "gzip",
+			"compressionLevel": "Optimal",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

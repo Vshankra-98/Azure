@@ -1,0 +1,105 @@
+{
+	"name": "pl_explore_variables_iteration_condition",
+	"properties": {
+		"description": "exploring differet variables, iteration foreach, if-else",
+		"activities": [
+			{
+				"name": "act_set_var_session_nm",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "session_nm",
+					"value": {
+						"value": "BWT_ADF_SESSION\n",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ACT_session_id",
+				"description": "one variable refferencing another varible",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "sessionid",
+					"value": {
+						"value": "1",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "act_set_var_concat_session",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "act_set_var_session_nm",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ACT_session_id",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "session_detail",
+					"value": {
+						"value": "@concat(variables('sessionid'),'-->',variables('session_nm'))",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"session_nm": {
+				"type": "String"
+			},
+			"session_id": {
+				"type": "Integer"
+			},
+			"sessionid": {
+				"type": "String"
+			},
+			"session_detail": {
+				"type": "String"
+			},
+			"new_lst": {
+				"type": "Array"
+			},
+			"bew_list_array": {
+				"type": "Array"
+			},
+			"new_list_array_display": {
+				"type": "Array"
+			},
+			"session_name": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "session1"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-02-14T05:57:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,9 @@
+{
+	"name": "adf-bwt-practice",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8929e0c2-29f3-41d1-a5af-23d99b91c87c",
+		"tenantId": "20144a41-59ca-45b5-a8f5-43bf582cf2e6"
+	}
+}

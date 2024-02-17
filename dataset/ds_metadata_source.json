@@ -1,0 +1,19 @@
+{
+	"name": "ds_metadata_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls__blob_storage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "task_2",
+				"container": "adf-practice"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
