@@ -1,0 +1,9 @@
+{
+	"name": "instance-copy-blob-to-blob",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "56d7ee7c-c9ba-4eb5-aab6-640ff4f3ecfd",
+		"tenantId": "20144a41-59ca-45b5-a8f5-43bf582cf2e6"
+	}
+}
