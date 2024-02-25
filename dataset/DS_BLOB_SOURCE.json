@@ -1,0 +1,56 @@
+{
+	"name": "DS_BLOB_SOURCE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_BLOB_SOURCE",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "employee.csv",
+				"container": "durgainput"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "E_ID",
+				"type": "String"
+			},
+			{
+				"name": "E_NAME",
+				"type": "String"
+			},
+			{
+				"name": "E_JOB",
+				"type": "String"
+			},
+			{
+				"name": "E_ADD",
+				"type": "String"
+			},
+			{
+				"name": "E_CONTACT",
+				"type": "String"
+			},
+			{
+				"name": "E_SALE",
+				"type": "String"
+			},
+			{
+				"name": "E_DOJ",
+				"type": "String"
+			},
+			{
+				"name": "E_DOL",
+				"type": "String"
+			}
+		]
+	}
+}
