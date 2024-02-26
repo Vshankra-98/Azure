@@ -1,0 +1,52 @@
+{
+	"name": "DS_SQL_DATABASE_airline",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_sqlDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "e_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "e_name",
+				"type": "varchar"
+			},
+			{
+				"name": "e_job",
+				"type": "varchar"
+			},
+			{
+				"name": "e_add",
+				"type": "varchar"
+			},
+			{
+				"name": "e_contact",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "e_sale",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "e_doj",
+				"type": "varchar"
+			},
+			{
+				"name": "e_dol",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "airline"
+		}
+	}
+}

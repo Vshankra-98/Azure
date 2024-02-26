@@ -1,0 +1,52 @@
+{
+	"name": "DS_BLOB_EMPLOYEE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_BLOB_SOURCE",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "employee.csv",
+				"container": "durgainput"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "C_ID",
+				"type": "String"
+			},
+			{
+				"name": "C_NAME",
+				"type": "String"
+			},
+			{
+				"name": "C_ADD",
+				"type": "String"
+			},
+			{
+				"name": "C_CONTACT",
+				"type": "String"
+			},
+			{
+				"name": "C_CREDIT_DAYS",
+				"type": "String"
+			},
+			{
+				"name": "CJ_DATE",
+				"type": "String"
+			},
+			{
+				"name": "SEX",
+				"type": "String"
+			}
+		]
+	}
+}
