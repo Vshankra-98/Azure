@@ -37,11 +37,11 @@
 			},
 			{
 				"name": "e_doj",
-				"type": "varchar"
+				"type": "date"
 			},
 			{
 				"name": "e_dol",
-				"type": "varchar"
+				"type": "date"
 			}
 		],
 		"typeProperties": {

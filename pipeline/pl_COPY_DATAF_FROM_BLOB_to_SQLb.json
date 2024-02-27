@@ -1,0 +1,159 @@
+{
+	"name": "pl_COPY_DATAF_FROM_BLOB_to_SQLb",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "E_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "e_id",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "E_NAME",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "e_name",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "E_JOB",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "e_job",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "E_ADD",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "e_add",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "E_CONTACT",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "e_contact",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "E_SALE",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "e_sale",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "E_DOJ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "e_doj",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "E_DOL",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "e_dol",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false,
+							"dateFormat": "yyyy-MM-dd"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_BLOB_EMPLOYEE",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SQL_DATABASE_airline",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
