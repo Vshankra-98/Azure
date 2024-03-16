@@ -1,0 +1,9 @@
+{
+	"name": "brainworks-adf",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "a33f1d45-e4c1-4687-93b1-969e4f229bef",
+		"tenantId": "430e74a8-52e2-4987-a975-a43525084204"
+	}
+}
