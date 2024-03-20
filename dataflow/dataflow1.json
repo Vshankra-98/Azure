@@ -1,0 +1,64 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_source_dataflow",
+						"type": "DatasetReference"
+					},
+					"name": "SOURCE"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "target",
+					"description": "targtet of the result"
+				}
+			],
+			"transformations": [
+				{
+					"name": "sort"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     column_name as string",
+				"}",
+				"source(output(",
+				"          CNUM as string,",
+				"          CNAME as string,",
+				"          CITY as string,",
+				"          RATING as string,",
+				"          SNUM as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     ignoreNoFilesFound: false) ~> SOURCE",
+				"SOURCE sort(desc($column_name, true),",
+				"     caseInsensitive: true) ~> sort",
+				"sort sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CNUM as string,",
+				"          CNAME as string,",
+				"          CITY as string,",
+				"          RATING as string,",
+				"          SNUM as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> target"
+			]
+		}
+	}
+}
