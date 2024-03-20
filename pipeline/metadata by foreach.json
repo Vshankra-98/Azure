@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "metadata by foreach",
 	"properties": {
 		"activities": [
 			{
@@ -16,14 +16,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "ds_metadata_source",
+						"referenceName": "Binary2",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
 						"childItems"
 					],
 					"storeSettings": {
-						"type": "AzureBlobStorageReadSettings",
+						"type": "AzureBlobFSReadSettings",
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -64,7 +64,7 @@
 							}
 						},
 						{
-							"name": "Set variable1",
+							"name": "list of all metadata",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
@@ -86,6 +86,195 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "separte files and folders",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().type,'File' )",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "append folders",
+										"type": "AppendVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "append folder",
+											"value": {
+												"value": "@item().name",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "list of folders",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "append folders",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "list of folders",
+											"value": {
+												"value": "@variables('append folder')",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "count of folders",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "list of folders",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "count of files",
+											"value": {
+												"value": "@length(variables('list of folders'))",
+												"type": "Expression"
+											}
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "append_files",
+										"type": "AppendVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "append_file",
+											"value": {
+												"value": "@item().name",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "list_of files",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "append_files",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "list of files",
+											"value": {
+												"value": "@variables('append_file')",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "count of files",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "list_of files",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "count of files",
+											"value": {
+												"value": "@length(variables('list of files'))",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "if condition to seprate ends with csv",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@endswith(item().name, '.csv')",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "append data ends with csv",
+										"type": "AppendVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "append ends with csv",
+											"value": {
+												"value": "@item().name",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "list of data ends with csv",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "append data ends with csv",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "list of elements ends with csv",
+											"value": {
+												"value": "@variables('append ends with csv')",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
 						}
 					]
 				}
@@ -96,6 +285,30 @@
 				"type": "Array"
 			},
 			"list": {
+				"type": "Array"
+			},
+			"append_file": {
+				"type": "Array"
+			},
+			"list of files": {
+				"type": "Array"
+			},
+			"append folder": {
+				"type": "Array"
+			},
+			"list of folders": {
+				"type": "Array"
+			},
+			"count of files": {
+				"type": "Integer"
+			},
+			"count of total folders": {
+				"type": "Integer"
+			},
+			"append ends with csv": {
+				"type": "Array"
+			},
+			"list of elements ends with csv": {
 				"type": "Array"
 			}
 		},
