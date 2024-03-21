@@ -1,0 +1,111 @@
+{
+	"name": "Until acitivity",
+	"properties": {
+		"activities": [
+			{
+				"name": "act_until_",
+				"type": "Until",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@empty(pipeline().parameters.list)",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "removing_element",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "removing_element",
+								"value": {
+									"value": "@pipeline().parameters.list[0]",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "filter_with_first_elemet of lsit",
+							"type": "Filter",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"items": {
+									"value": "@pipeline().parameters.list",
+									"type": "Expression"
+								},
+								"condition": {
+									"value": "@contains(pipeline().parameters.list,variables('removing_element') )",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "updated_list",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "filter_with_first_elemet of lsit",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "updated list",
+								"value": {
+									"value": "@activity('filter_with_first_elemet of lsit').output.Value",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"list": {
+				"type": "array",
+				"defaultValue": [
+					1,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10
+				]
+			}
+		},
+		"variables": {
+			"removing_element": {
+				"type": "Integer"
+			},
+			"array": {
+				"type": "Array"
+			},
+			"updated list": {
+				"type": "Array"
+			}
+		},
+		"folder": {
+			"name": "S2-metadata"
+		},
+		"annotations": []
+	}
+}
