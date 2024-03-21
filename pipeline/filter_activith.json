@@ -1,0 +1,116 @@
+{
+	"name": "filter_activith",
+	"properties": {
+		"activities": [
+			{
+				"name": "filter_even_number",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.list",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(mod(item(), 2),0)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "filter_od_number_copy1",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.list",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@not(equals(mod(item(),2 ),0))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "list_even_numbers",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "filter_even_number",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "evnen_list",
+					"value": {
+						"value": "@activity('filter_even_number').output.Value",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "list_even_numbers_copy1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "filter_od_number_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "odd_list",
+					"value": {
+						"value": "@activity('filter_od_number_copy1').output.Value",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"list": {
+				"type": "array",
+				"defaultValue": [
+					1,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10
+				]
+			}
+		},
+		"variables": {
+			"evnen_list": {
+				"type": "Array"
+			},
+			"odd_list": {
+				"type": "Array"
+			}
+		},
+		"folder": {
+			"name": "S2-metadata"
+		},
+		"annotations": []
+	}
+}
