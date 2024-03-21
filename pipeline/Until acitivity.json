@@ -25,7 +25,7 @@
 							"typeProperties": {
 								"variableName": "removing_element",
 								"value": {
-									"value": "@pipeline().parameters.list[0]",
+									"value": "@pipeline().parameters.list[add(variables('staring index'),1)]",
 									"type": "Expression"
 								}
 							}
@@ -41,7 +41,7 @@
 									"type": "Expression"
 								},
 								"condition": {
-									"value": "@contains(pipeline().parameters.list,variables('removing_element') )",
+									"value": "@not(contains(pipeline().parameters.list,variables('removing_element') ))",
 									"type": "Expression"
 								}
 							}
@@ -66,6 +66,23 @@
 								"variableName": "updated list",
 								"value": {
 									"value": "@activity('filter_with_first_elemet of lsit').output.Value",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "index of list",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "index",
+								"value": {
+									"value": "@variables('staring index')",
 									"type": "Expression"
 								}
 							}
@@ -101,6 +118,13 @@
 			},
 			"updated list": {
 				"type": "Array"
+			},
+			"index": {
+				"type": "Integer"
+			},
+			"staring index": {
+				"type": "Integer",
+				"defaultValue": 0
 			}
 		},
 		"folder": {
