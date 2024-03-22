@@ -5,11 +5,18 @@
 			{
 				"name": "act_until_",
 				"type": "Until",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "list",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@empty(pipeline().parameters.list)",
+						"value": "@empty(variables('updated list'))",
 						"type": "Expression"
 					},
 					"activities": [
@@ -23,25 +30,9 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "removing_element",
+								"variableName": "removed_list",
 								"value": {
-									"value": "@pipeline().parameters.list[add(variables('staring index'),1)]",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "filter_with_first_elemet of lsit",
-							"type": "Filter",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"items": {
-									"value": "@pipeline().parameters.list",
-									"type": "Expression"
-								},
-								"condition": {
-									"value": "@not(contains(pipeline().parameters.list,variables('removing_element') ))",
+									"value": "@skip(variables('updated list'),variables('updated list')[0] )",
 									"type": "Expression"
 								}
 							}
@@ -51,7 +42,7 @@
 							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "filter_with_first_elemet of lsit",
+									"activity": "removing_element",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -65,30 +56,30 @@
 							"typeProperties": {
 								"variableName": "updated list",
 								"value": {
-									"value": "@activity('filter_with_first_elemet of lsit').output.Value",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "index of list",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "index",
-								"value": {
-									"value": "@variables('staring index')",
+									"value": "@variables('removed_list')",
 									"type": "Expression"
 								}
 							}
 						}
 					],
 					"timeout": "0.12:00:00"
+				}
+			},
+			{
+				"name": "list",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "updated list",
+					"value": {
+						"value": "@pipeline().parameters.list",
+						"type": "Expression"
+					}
 				}
 			}
 		],
@@ -110,21 +101,11 @@
 			}
 		},
 		"variables": {
-			"removing_element": {
-				"type": "Integer"
-			},
-			"array": {
-				"type": "Array"
-			},
 			"updated list": {
 				"type": "Array"
 			},
-			"index": {
-				"type": "Integer"
-			},
-			"staring index": {
-				"type": "Integer",
-				"defaultValue": 0
+			"removed_list": {
+				"type": "Array"
 			}
 		},
 		"folder": {
