@@ -1,0 +1,36 @@
+{
+	"name": "delete activity",
+	"properties": {
+		"activities": [
+			{
+				"name": "deleting by recursiely",
+				"type": "Delete",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_delete_activiy",
+						"type": "DatasetReference"
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "S2-metadata"
+		},
+		"annotations": []
+	}
+}
