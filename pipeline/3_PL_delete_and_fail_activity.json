@@ -1,8 +1,131 @@
 {
-	"name": "d_without_writing_extension",
+	"name": "3_PL_delete_and_fail_activity",
 	"properties": {
+		"description": "thispipeline delete file taking file name as  parameter as without extension name from   hollywood folder if file not found in the folder then it explicitly shows error using fail activity",
+		"activities": [
+			{
+				"name": "ACT_metadata from folder",
+				"description": "this gives list of subfolders and files withion folder",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_metada",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "BinaryReadSettings"
+					}
+				}
+			},
+			{
+				"name": "ACT_foreach_gives list of metada",
+				"description": "this activity gives the list of childitems ",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "ACT_metadata from folder",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('ACT_metadata from folder').output.childItems",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "ACT_ condition statementt",
+							"description": "this activity checks the element type which is file and and its name without exetensions only with initial letters ",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@and(equals(item().type,'File'),startswith(item().name,pipeline().parameters.file_name_by_user))",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "ACt_fail",
+										"description": "this activity explicitly show error for when file not found pass by user",
+										"type": "Fail",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"message": "file not found issue",
+											"errorCode": "2042"
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "act_delete_given file",
+										"description": "this file delete the give file name pass by user",
+										"type": "Delete",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"dataset": {
+												"referenceName": "ds_delete_parameterized_name",
+												"type": "DatasetReference",
+												"parameters": {
+													"file_name": {
+														"value": "@item().name",
+														"type": "Expression"
+													}
+												}
+											},
+											"enableLogging": false,
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": false,
+												"enablePartitionDiscovery": false
+											}
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"file_name_by_user": {
+				"type": "string"
+			}
+		},
 		"variables": {
 			"metadata": {
+				"type": "Array"
+			},
+			"item name": {
 				"type": "Array"
 			}
 		},
