@@ -15,6 +15,22 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"expression": {
+						"value": "@contains(activity('Get Metadata1').output.childitems, pipeline().parameters.file_from_user)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Fail1",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"message": "file not found issue",
+								"errorCode": "101010"
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "Delete1",
@@ -29,7 +45,16 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"enableLogging": true
+								"enableLogging": false,
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": false,
+									"wildcardFileName": {
+										"value": "@pipeline().parameters.file_from_user",
+										"type": "Expression"
+									},
+									"enablePartitionDiscovery": false
+								}
 							}
 						}
 					]
@@ -48,11 +73,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataset": {
-						"referenceName": "ds_paramerized",
-						"type": "DatasetReference"
-					},
-					"fieldList": [],
+					"fieldList": [
+						"childItems"
+					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
 						"enablePartitionDiscovery": false
@@ -66,6 +89,11 @@
 		"parameters": {
 			"file_from_user": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"item name": {
+				"type": "Array"
 			}
 		},
 		"folder": {
