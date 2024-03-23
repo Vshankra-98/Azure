@@ -6,9 +6,6 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"folder_name": {
-				"type": "String"
-			},
 			"file_name": {
 				"type": "String"
 			}
@@ -22,10 +19,7 @@
 					"value": "@dataset().file_name",
 					"type": "Expression"
 				},
-				"folderPath": {
-					"value": "@dataset().folder_name",
-					"type": "Expression"
-				},
+				"folderPath": "Movies/Hollywood",
 				"fileSystem": "input-container"
 			}
 		}
