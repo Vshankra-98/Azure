@@ -1,0 +1,182 @@
+{
+	"name": "jeson",
+	"properties": {
+		"description": "getting metadata from any source or any folder",
+		"activities": [
+			{
+				"name": "act_metadataof source",
+				"description": "this acitvity gets metadata from any source",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "BinaryReadSettings"
+					}
+				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "act_metadataof source",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "total_count_of source",
+					"value": {
+						"value": "@length(activity('act_metadataof source').output.childItems)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "filter_ends_with_csv",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "act_metadataof source",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('act_metadataof source').output.childItems",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@endswith(string(item()['Name']), '.csv')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "act_filtring_only folders",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "act_metadataof source",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('act_metadataof source').output.childItems",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(item()['type'], 'Folder' )",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "act_filtering_only file",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "act_metadataof source",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('act_metadataof source').output.childItems",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(item()['type'], 'File')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "act_list_of all files",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "act_filtering_only file",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "list_files",
+					"value": {
+						"value": "@activity('act_filtering_only file').output.value",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"lst_of_attributes_for_metada": {
+				"type": "Array",
+				"defaultValue": []
+			},
+			"lst_endswith_csv": {
+				"type": "Array",
+				"defaultValue": []
+			},
+			"lst_folder": {
+				"type": "Array",
+				"defaultValue": []
+			},
+			"list_files": {
+				"type": "Array",
+				"defaultValue": []
+			},
+			"true_value": {
+				"type": "String"
+			},
+			"total_count_of source": {
+				"type": "Integer"
+			}
+		},
+		"folder": {
+			"name": "S2-metadata"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-02-15T15:15:11Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
