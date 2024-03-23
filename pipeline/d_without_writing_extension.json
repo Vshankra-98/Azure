@@ -1,0 +1,14 @@
+{
+	"name": "d_without_writing_extension",
+	"properties": {
+		"variables": {
+			"metadata": {
+				"type": "Array"
+			}
+		},
+		"folder": {
+			"name": "S2-metadata/Delete activity"
+		},
+		"annotations": []
+	}
+}

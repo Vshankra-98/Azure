@@ -1,5 +1,5 @@
 {
-	"name": "ds_delete_activiy",
+	"name": "ds_folder",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "Movies/Hollywood",
+				"folderPath": "Movies/Bollywood",
 				"fileSystem": "input-container"
 			}
 		}
