@@ -1,5 +1,5 @@
 {
-	"name": "d_specific_fileBY_Seelection",
+	"name": "1_pl_specific_fileBY_Seelection",
 	"properties": {
 		"activities": [
 			{
@@ -15,10 +15,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataset": {
-						"referenceName": "ds_delete_file_notfolder",
-						"type": "DatasetReference"
-					},
 					"enableLogging": false,
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
