@@ -1,9 +1,10 @@
 {
-	"name": "file_name_parametrized",
+	"name": "2_PL_file_name_parametrized",
 	"properties": {
 		"activities": [
 			{
-				"name": "Delete1",
+				"name": "act_delete_file",
+				"description": "this activity delete the file taking parameterised file name from hollywood folder",
 				"type": "Delete",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +17,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "ds_paramerized",
+						"referenceName": "ds_delete_parameterized_name",
 						"type": "DatasetReference",
 						"parameters": {
 							"file_name": {
