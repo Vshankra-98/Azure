@@ -1,5 +1,5 @@
 {
-	"name": "delete activity",
+	"name": "delete_allItems_of_folder",
 	"properties": {
 		"activities": [
 			{
@@ -30,38 +30,7 @@
 				}
 			},
 			{
-				"name": "deleting_file_using_parameters",
-				"type": "Delete",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataset": {
-						"referenceName": "ds_with_paramerrised",
-						"type": "DatasetReference",
-						"parameters": {
-							"folder_name": "Bollywood",
-							"file_name": "marathi.csv"
-						}
-					},
-					"enableLogging": false,
-					"storeSettings": {
-						"type": "AzureBlobFSReadSettings",
-						"recursive": false,
-						"enablePartitionDiscovery": false
-					}
-				}
-			},
-			{
-				"name": "delete_file by taking file name from users",
+				"name": "delete al files in folder folder remain exiss",
 				"type": "Delete",
 				"dependsOn": [],
 				"policy": {
@@ -74,32 +43,21 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "ds_with_paramerrised",
-						"type": "DatasetReference",
-						"parameters": {
-							"folder_name": "Hollywood",
-							"file_name": {
-								"value": "@pipeline().parameters.hollywwod_fileName",
-								"type": "Expression"
-							}
-						}
+						"referenceName": "ds_delete_file_notfolder",
+						"type": "DatasetReference"
 					},
 					"enableLogging": false,
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
 						"recursive": false,
+						"wildcardFileName": "*",
 						"enablePartitionDiscovery": false
 					}
 				}
 			}
 		],
-		"parameters": {
-			"hollywwod_fileName": {
-				"type": "string"
-			}
-		},
 		"folder": {
-			"name": "S2-metadata"
+			"name": "S2-metadata/Delete activity"
 		},
 		"annotations": []
 	}

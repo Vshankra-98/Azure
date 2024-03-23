@@ -1,0 +1,19 @@
+{
+	"name": "ds_delete_file_notfolder",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "marathi.csv",
+				"folderPath": "Movies/Bollywood",
+				"fileSystem": "input-container"
+			}
+		}
+	}
+}
