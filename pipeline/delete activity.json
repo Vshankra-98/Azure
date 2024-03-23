@@ -3,8 +3,10 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "deleting by recursiely",
+				"name": "deleting by recursiely_ all subfolders",
 				"type": "Delete",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -26,8 +28,76 @@
 						"enablePartitionDiscovery": false
 					}
 				}
+			},
+			{
+				"name": "deleting_file_using_parameters",
+				"type": "Delete",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_with_paramerrised",
+						"type": "DatasetReference",
+						"parameters": {
+							"folder_name": "Bollywood",
+							"file_name": "marathi.csv"
+						}
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": false,
+						"enablePartitionDiscovery": false
+					}
+				}
+			},
+			{
+				"name": "delete_file by taking file name from users",
+				"type": "Delete",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_with_paramerrised",
+						"type": "DatasetReference",
+						"parameters": {
+							"folder_name": "Hollywood",
+							"file_name": {
+								"value": "@pipeline().parameters.hollywwod_fileName",
+								"type": "Expression"
+							}
+						}
+					},
+					"enableLogging": false,
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": false,
+						"enablePartitionDiscovery": false
+					}
+				}
 			}
 		],
+		"parameters": {
+			"hollywwod_fileName": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "S2-metadata"
 		},
