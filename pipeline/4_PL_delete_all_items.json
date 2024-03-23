@@ -1,5 +1,5 @@
 {
-	"name": "delete_allItems_of_folder",
+	"name": "4_PL_delete_all_items",
 	"properties": {
 		"activities": [
 			{
@@ -30,7 +30,8 @@
 				}
 			},
 			{
-				"name": "delete al files in folder folder remain exiss",
+				"name": "act_deleteing_all_files_given_directory",
+				"description": "this activity deletes all files or folders from given directory",
 				"type": "Delete",
 				"dependsOn": [],
 				"policy": {
@@ -42,6 +43,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_delete_activiy",
+						"type": "DatasetReference"
+					},
 					"enableLogging": false,
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
